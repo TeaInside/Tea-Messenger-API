@@ -208,7 +208,7 @@ class RegisterTest extends TestCase
 	{
 		$this->assertTrue(file_exists($f = BASEPATH."/php_server.pid"));
 
-		if (!in_array("--no-truncate", $_SERVER["argv"])) {
+		if (!in_array("-vvvvv", $_SERVER["argv"])) {
 			$tables = ["users", "user_keys", "phones", "emails", "addresses"];
 			$pdo = DB::pdo();
 			$pdo->exec("SET foreign_key_checks = 0;");
