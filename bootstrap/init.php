@@ -17,6 +17,8 @@ if (!defined("TEA_MESSENGER_API_INIT")) {
 		}
 	}
 
+	spl_autoload_register("teaMessengerApiInternalAutoloader");
+
 	require BASEPATH."/vendor/autoload.php";
 	require BASEPATH."/src/helpers.php";
 }
