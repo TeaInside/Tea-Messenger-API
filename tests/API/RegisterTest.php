@@ -96,7 +96,25 @@ class RegisterTest extends TestCase
 				"phone" => "085867152777",
 				"password" => "ini password",
 				"cpassword" => "ini password",
-			], false, "/Invalid gender/"]
+			], false, "/Invalid gender/"],
+			[[
+				"first_name" => "Ammar",
+				"last_name" => "Faizi",
+				"gender" => "male",
+				"email" => "ammarfai@zi2@gmail.com",
+				"phone" => "085867152777",
+				"password" => "ini password",
+				"cpassword" => "ini password",
+			], false, "/is not a valid email address/"],
+			[[
+				"first_name" => "Ammar",
+				"last_name" => "Faizi",
+				"gender" => "male",
+				"email" => str_repeat("a", 200)."@gmail.com",
+				"phone" => "085867152777",
+				"password" => "ini password",
+				"cpassword" => "ini password",
+			], false, "/is not a valid email address/"],
 		];
 	}
 

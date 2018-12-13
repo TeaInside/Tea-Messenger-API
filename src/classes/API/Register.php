@@ -183,18 +183,6 @@ class Register implements APIContract
 			return;
 		}
 
-		$c = strlen($i["email"]);
-
-		if ($c >= 200) {
-			error_api("{$m} `email` is too long. Please provide an email with size less than 200 bytes.", 400);
-			return;
-		}
-
-		if ($c <= 4) {
-			error_api("{$m} `email` is too short. Please provide an email with size more than 4 bytes.", 400);
-			return;
-		}
-
 		if (!preg_match("/^[0\+]\d{4,13}$/", $i["phone"])) {
 			error_api("{$m} Invalid phone number", 400);	
 			return;
