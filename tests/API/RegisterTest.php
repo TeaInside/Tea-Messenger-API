@@ -69,7 +69,7 @@ class RegisterTest extends TestCase
 				"phone" => "085867152777",
 				"password" => "ini password",
 				"cpassword" => "ini password",
-			], true, "/\`first_name\` is too short\. Please provide a name with/"]
+			], false, "/\`first_name\` is too long\. Please provide a name with/"]
 		];
 	}
 
