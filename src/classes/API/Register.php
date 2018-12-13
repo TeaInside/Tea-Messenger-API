@@ -67,13 +67,12 @@ class Register implements APIContract
 
 			$pdo = DB::pdo();
 			$st = $pdo->prepare(
-				"INSERT INTO `users` (`first_name`, `last_name`, `username`, `gender`, `password`, `registered_at`, `updated_at`) VALUES (:first_name, :last_name, :username, :gender, :password, :registered_at, NULL);"
+				"INSERT INTO `users` (`first_name`, `last_name`, `username`, `gender`, `password`, `registered_at`, `updated_at`) VALUES (:first_name, :last_name, NULL, :gender, :password, :registered_at, NULL);"
 			);
 			$st->execute(
 				[
 					":first_name" => $i["first_name"],
 					":last_name" => $i["last_name"],
-					":username" => $i["username"],
 					":gender" => $i["gender"],
 					":password" => $i["password"],
 					":registered_at" => $createdAt
