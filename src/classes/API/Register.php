@@ -241,7 +241,8 @@ class Register implements APIContract
 			return;
 		}
 
-		if ($c >= 200) {ssord with size less than 200 bytes.", 400);
+		if ($c >= 200) {
+			error_api("{$m} `password` is too long. Please provide a password with size less than 200 bytes.", 400);
 			return;
 		}
 
