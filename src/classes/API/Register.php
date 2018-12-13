@@ -104,6 +104,17 @@ class Register implements APIContract
 				]
 			);
 
+			$st = $pdo->prepare(
+				"INSERT INTO `phones` (`user_id`, `phone`, `created_at`) VALUES (:user_id, :phone, :created_at);"
+			);
+			$st->execute(
+				[
+					":user_id" => $userId,
+					':phone' => $i["phone"],
+					":created_at" => $createdAt
+				]
+			);
+
 			print API::json001("success",
 				[
 					"message" => "register_success"
