@@ -193,7 +193,17 @@ class Register implements APIContract
 			return;
 		}
 
-		
+		$c = strlen($i["password"]);
+
+		if ($c < 6) {
+			error_api("{$m} `password` is too short. Please provide a password with size more than 6 bytes.", 400);
+			return;
+		}
+
+		if ($c >= 200) {
+			error_api("{$m} `password` is too long. Please provide a password with size less than 200 bytes.", 400);
+			return;
+		}
 
 		unset($c, $i);
 		return;

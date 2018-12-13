@@ -132,7 +132,25 @@ class RegisterTest extends TestCase
 				"phone" => "085867152777",
 				"password" => "abcd",
 				"cpassword" => "abcdz",
-			], false, "/The confirm password is not same with password/"]
+			], false, "/The confirm password is not same with password/"],
+			[[
+				"first_name" => "Ammar",
+				"last_name" => "Faizi",
+				"gender" => "male",
+				"email" => "ammarfaizi2@gmail.com",
+				"phone" => "085867152777",
+				"password" => "aaa",
+				"cpassword" => "aaa",
+			], false, "/\`password\` is too short\. Please provide a password /"],
+			[[
+				"first_name" => "Ammar",
+				"last_name" => "Faizi",
+				"gender" => "male",
+				"email" => "ammarfaizi2@gmail.com",
+				"phone" => "085867152777",
+				"password" => str_repeat("q", 300),
+				"cpassword" => str_repeat("q", 300),
+			], false, "/\`password\` is too long\. Please provide a password /"]
 		];
 	}
 
