@@ -2,6 +2,7 @@
 
 namespace tests\API;
 
+use tests\Curl;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -12,4 +13,5 @@ use PHPUnit\Framework\TestCase;
  */
 class RegisterTest extends TestCase
 {
+	use Curl;
 }
