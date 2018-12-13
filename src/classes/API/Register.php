@@ -4,6 +4,7 @@ namespace API;
 
 use DB;
 use API;
+use PDOException;
 use Contracts\APIContract;
 
 /**
@@ -59,18 +60,58 @@ class Register implements APIContract
 	private function save(array &$i): void
 	{
 		try {
+
+			$createdAt = date("Y-m-d H:i:s");
+			$encryptedUserKey = icencrypt($userKey = rstr(32), $createdAt);
+			$i["password"] = icencrypt($i["password"], $userKey);
+			unset($userKey);
+
 			$pdo = DB::pdo();
 			$st = $pdo->prepare(
-				"INSERT INTO `users` (`first_name`, `last_name`, `username`, `gender`, `password`, `registered_at`, `updated_at`) VALUES (:first_name, :last_name, :username, :gender, :password, :registered_at, NULL);"
+				"INSERT INTO `users` (`first_name`, `last_name`, `username`, `gender`, `password`, `registered_at`, `updated_at`) VALUES (:first_name, :last_name, NULL, :gender, :password, :registered_at, NULL);"
 			);
 			$st->execute(
 				[
 					":first_name" => $i["first_name"],
 					":last_name" => $i["last_name"],
-					":username" => $i["username"],
 					":gender" => $i["gender"],
 					":password" => $i["password"],
-					":registered_at" => date("Y-m-d H:i:s")
+					":registered_at" => $createdAt
+				]
+			);
+
+			$userId = $pdo->lastInsertId();
+
+			$st = $pdo->prepare(
+				"INSERT INTO `user_keys` (`user_id`, `ukey`, `created_at`) VALUES (:user_id, :ukey, :created_at);"
+			);
+			$st->execute(
+				[
+					":user_id" => $userId,
+					":ukey" => $encryptedUserKey,
+					":created_at" => $createdAt
+				]
+			);
+
+			$st = $pdo->prepare(
+				"INSERT INTO `emails` (`user_id`, `email`, `created_at`) VALUES (:user_id, :email, :created_at);"
+			);
+			$st->execute(
+				[
+					":user_id" => $userId,
+					":email" => $i["email"],
+					":created_at" => $createdAt
+				]
+			);
+
+			$st = $pdo->prepare(
+				"INSERT INTO `phones` (`user_id`, `phone`, `created_at`) VALUES (:user_id, :phone, :created_at);"
+			);
+			$st->execute(
+				[
+					":user_id" => $userId,
+					':phone' => $i["phone"],
+					":created_at" => $createdAt
 				]
 			);
 
@@ -82,8 +123,10 @@ class Register implements APIContract
 		} catch (PDOException $e) {
 			// Close PDO connection.
 			$st = $pdo = null;
-			
-			error_api("Internal Server Error: {$e->getMessage()}", 500);
+			$e = $e->getMessage();
+			error_api("Internal Server Error: {$e}", 500);
+			log($e);
+			error_log($e);
 
 			unset($e, $st, $pdo, $i);
 			exit;
@@ -221,7 +264,7 @@ class Register implements APIContract
 			"success",
 			[
 				// Encrypted expired time and random code 6 bytes for the captcha.
-				"token" => cencrypt(json_encode(
+				"token" => icencrypt(json_encode(
 					[
 						"expired" => $expired,
 						"code" => rstr(6, "1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM")

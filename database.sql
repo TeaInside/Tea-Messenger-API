@@ -12,10 +12,10 @@ CREATE TABLE `addresses` (
   `address` text NOT NULL,
   `created_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`),
   KEY `created_at` (`created_at`),
+  KEY `user_id` (`user_id`),
   FULLTEXT KEY `address` (`address`),
-  CONSTRAINT `addresses_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+  CONSTRAINT `addresses_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
@@ -86,4 +86,16 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
--- 2018-12-13 07:46:11
+DROP TABLE IF EXISTS `user_keys`;
+CREATE TABLE `user_keys` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) NOT NULL,
+  `ukey` text NOT NULL,
+  `created_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `user_keys_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+-- 2018-12-13 15:21:55

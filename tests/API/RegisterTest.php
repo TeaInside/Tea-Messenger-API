@@ -2,6 +2,7 @@
 
 namespace tests\API;
 
+use DB;
 use tests\Curl;
 use PHPUnit\Framework\TestCase;
 
@@ -65,8 +66,8 @@ class RegisterTest extends TestCase
 				"first_name" => str_repeat("q", 300),
 				"last_name" => "Faizi",
 				"gender" => "male",
-				"email" => "ammarfaizi2@gmail.com",
-				"phone" => "085867152777",
+				"email" => "ammarfaizi3@gmail.com",
+				"phone" => "085867152771",
 				"password" => "ini password",
 				"cpassword" => "ini password",
 			], false, "/\`first_name\` is too long\. Please provide a name with/"],
@@ -74,8 +75,8 @@ class RegisterTest extends TestCase
 				"first_name" => "aaa",
 				"last_name" => "Faizi",
 				"gender" => "male",
-				"email" => "ammarfaizi2@gmail.com",
-				"phone" => "085867152777",
+				"email" => "ammarfaizi4@gmail.com",
+				"phone" => "085867152772",
 				"password" => "ini password",
 				"cpassword" => "ini password",
 			], false, "/\`first_name\` is too short\. Please provide a name with/"],
@@ -83,8 +84,8 @@ class RegisterTest extends TestCase
 				"first_name" => "aaaaa",
 				"last_name" => str_repeat("a", 300),
 				"gender" => "male",
-				"email" => "ammarfaizi2@gmail.com",
-				"phone" => "085867152777",
+				"email" => "ammarfaizi5@gmail.com",
+				"phone" => "085867152773",
 				"password" => "ini password",
 				"cpassword" => "ini password",
 			], false, "/\`last_name\` is too long\. Please provide a name with/"],
@@ -92,8 +93,8 @@ class RegisterTest extends TestCase
 				"first_name" => "Ammar",
 				"last_name" => "Faizi",
 				"gender" => "blabla",
-				"email" => "ammarfaizi2@gmail.com",
-				"phone" => "085867152777",
+				"email" => "ammarfaizi6@gmail.com",
+				"phone" => "085867152774",
 				"password" => "ini password",
 				"cpassword" => "ini password",
 			], false, "/Invalid gender/"],
@@ -102,7 +103,7 @@ class RegisterTest extends TestCase
 				"last_name" => "Faizi",
 				"gender" => "male",
 				"email" => "ammarfai@zi2@gmail.com",
-				"phone" => "085867152777",
+				"phone" => "085867152775",
 				"password" => "ini password",
 				"cpassword" => "ini password",
 			], false, "/is not a valid email address/"],
@@ -111,7 +112,7 @@ class RegisterTest extends TestCase
 				"last_name" => "Faizi",
 				"gender" => "male",
 				"email" => str_repeat("a", 200)."@gmail.com",
-				"phone" => "085867152777",
+				"phone" => "085867152776",
 				"password" => "ini password",
 				"cpassword" => "ini password",
 			], false, "/is not a valid email address/"],
@@ -119,7 +120,7 @@ class RegisterTest extends TestCase
 				"first_name" => "Ammar",
 				"last_name" => "Faizi",
 				"gender" => "male",
-				"email" => "ammarfaizi2@gmail.com",
+				"email" => "ammarfaizi6@gmail.com",
 				"phone" => "123",
 				"password" => "ini password",
 				"cpassword" => "ini password",
@@ -128,7 +129,7 @@ class RegisterTest extends TestCase
 				"first_name" => "Ammar",
 				"last_name" => "Faizi",
 				"gender" => "male",
-				"email" => "ammarfaizi2@gmail.com",
+				"email" => "ammarfaizi211@gmail.com",
 				"phone" => "085867152777",
 				"password" => "abcd",
 				"cpassword" => "abcdz",
@@ -137,7 +138,7 @@ class RegisterTest extends TestCase
 				"first_name" => "Ammar",
 				"last_name" => "Faizi",
 				"gender" => "male",
-				"email" => "ammarfaizi2@gmail.com",
+				"email" => "ammarfaizi232@gmail.com",
 				"phone" => "085867152777",
 				"password" => "aaa",
 				"cpassword" => "aaa",
@@ -146,7 +147,7 @@ class RegisterTest extends TestCase
 				"first_name" => "Ammar",
 				"last_name" => "Faizi",
 				"gender" => "male",
-				"email" => "ammarfaizi2@gmail.com",
+				"email" => "ammarfaizi2444@gmail.com",
 				"phone" => "085867152777",
 				"password" => str_repeat("q", 300),
 				"cpassword" => str_repeat("q", 300),
@@ -187,7 +188,7 @@ class RegisterTest extends TestCase
 	private function submit(array $form): array
 	{
 		global $testToken;
-		$me = json_decode(dencrypt($testToken, APP_KEY), true);
+		$me = json_decode(icdecrypt($testToken, APP_KEY), true);
 		$form["captcha"] = $me["code"];
 		$opt = [
 			CURLOPT_POST => true,
@@ -206,5 +207,16 @@ class RegisterTest extends TestCase
 	public function testClose(): void
 	{
 		$this->assertTrue(file_exists($f = BASEPATH."/php_server.pid"));
+
+		if (!in_array("-vvvvv", $_SERVER["argv"])) {
+			$tables = ["users", "user_keys", "phones", "emails", "addresses"];
+			$pdo = DB::pdo();
+			$pdo->exec("SET foreign_key_checks = 0;");
+			foreach ($tables as $key => $table) {
+				$pdo->exec("TRUNCATE TABLE `{$table}`;");
+			}
+			$pdo = null;
+			unset($pdo);
+		}
 	}
 }
