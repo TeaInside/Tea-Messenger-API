@@ -58,7 +58,20 @@ class Register implements APIContract
 	 */
 	private function submit(): void
 	{
+		if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+			error_api("Method not allowed", 405);
+		}
 		
+		$this->captcha = API::validateToken();
+
+		// Validate input
+		$i = json_decode(file_get_contents("php://input"), true);
+		if (!is_array($i)) {
+			error_api("Invalid request body");
+			return;
+		}
+		$this->validateSubmitInput($i);
+		$this->save($i);
 	}
 
 	/**
