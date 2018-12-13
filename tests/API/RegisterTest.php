@@ -46,11 +46,11 @@ class RegisterTest extends TestCase
 			[[
 				"first_name" => "Ammar",
 				"last_name" => "Faizi",
+				"gender" => "male",
 				"email" => "ammarfaizi2@gmail.com",
 				"phone" => "085867152777",
 				"password" => "ini password",
 				"cpassword" => "ini password",
-				"gender" => "male"
 			], true]
 		];
 	}
