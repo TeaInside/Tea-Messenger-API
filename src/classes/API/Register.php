@@ -2,7 +2,7 @@
 
 namespace API;
 
-
+use DB;
 use API;
 use Contracts\APIContract;
 
@@ -61,18 +61,16 @@ class Register implements APIContract
 		try {
 			$pdo = DB::pdo();
 			$st = $pdo->prepare(
-				"INSERT INTO `users` (`first_name`, `last_name`, `username`, `gender`, `password`, `registered_at`, `updated_at`) VALUES ('', NULL, NULL, NULL, '', '', NULL);"
+				"INSERT INTO `users` (`first_name`, `last_name`, `username`, `gender`, `password`, `registered_at`, `updated_at`) VALUES (:first_name, :last_name, :username, :gender, :password, :registered_at, NULL);"
 			);
 			$st->execute(
 				[
-					":name" => $i["name"],
-					":company_name" => $i["company_name"],
-					":position" => $i["position"],
-					":company_sector" => $i["company_sector"],
-					":email" => $i["email"],
-					":phone" => $i["phone"],
-					":experience" => $i["experience"],
-					":created_at" => date("Y-m-d H:i:s")
+					":first_name" => $i["first_name"],
+					":last_name" => $i["last_name"],
+					":username" => $i["username"],
+					":gender" => $i["gender"],
+					":password" => $i["password"],
+					":registered_at" => date("Y-m-d H:i:s")
 				]
 			);
 
@@ -173,6 +171,12 @@ class Register implements APIContract
 			error_api("{$m} `last_name` is too long. Please provide a name with size less than 200 bytes.", 400);
 			return;
 		}
+
+		if (!in_array($i["gender"], ["male", "female"])) {
+			error_api("{$m} Invalid gender");
+			return;
+		}
+		$i["gender"] = $i["gender"] === "male" ? "m" : "f";
 
 		if (!filter_var($i["email"], FILTER_VALIDATE_EMAIL)) {
 			error_api("{$m} \"{$i["email"]}\" is not a valid email address", 400);
