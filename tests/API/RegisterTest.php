@@ -115,6 +115,24 @@ class RegisterTest extends TestCase
 				"password" => "ini password",
 				"cpassword" => "ini password",
 			], false, "/is not a valid email address/"],
+			[[
+				"first_name" => "Ammar",
+				"last_name" => "Faizi",
+				"gender" => "male",
+				"email" => "ammarfaizi2@gmail.com",
+				"phone" => "123",
+				"password" => "ini password",
+				"cpassword" => "ini password",
+			], false, "/Invalid phone number/"],
+			[[
+				"first_name" => "Ammar",
+				"last_name" => "Faizi",
+				"gender" => "male",
+				"email" => "ammarfaizi2@gmail.com",
+				"phone" => "085867152777",
+				"password" => "abcd",
+				"cpassword" => "abcdz",
+			], false, "/The confirm password is not same with password/"]
 		];
 	}
 

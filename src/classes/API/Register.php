@@ -184,9 +184,16 @@ class Register implements APIContract
 		}
 
 		if (!preg_match("/^[0\+]\d{4,13}$/", $i["phone"])) {
-			error_api("{$m} Invalid phone number", 400);	
+			error_api("{$m} Invalid phone number", 400);
 			return;
 		}
+
+		if ($i["password"] !== $i["cpassword"]) {
+			error_api("{$m} The confirm password is not same with password", 400);
+			return;
+		}
+
+		
 
 		unset($c, $i);
 		return;
