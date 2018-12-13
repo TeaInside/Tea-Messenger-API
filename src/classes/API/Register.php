@@ -9,7 +9,10 @@
 class Register implements ApiContract
 {
 	/**
-	 *
-	 *
+	 * Constructor.
 	 */
+	public function __construct()
+	{
+
+	}
 }
