@@ -17,7 +17,7 @@ if (!function_exists("rstr")) {
 		$e = is_string($e) ? $e : "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm1234567890---___...";
 		$c = strlen($e) - 1;
 		$r = "";
-		for ($i=0; $i <= $c; $i++) { 
+		for ($i=0; $i <= $n; $i++) { 
 			$r .= $e[rand(0, $c)];
 		}
 		return $r;
@@ -53,7 +53,7 @@ if (!function_exists("icencrypt")) {
 	 */
 	function cencrypt(string $str, string $key): string
 	{
-		return \Encryption\Cencrypt::encrypt($str, $key);
+		return \Encryption\IceTeaCrypt::encrypt($str, $key);
 	}
 }
 
@@ -65,7 +65,7 @@ if (!function_exists("icdecrypt")) {
 	 */
 	function dencrypt(string $str, string $key): string
 	{
-		return \Encryption\Cencrypt::decrypt($str, $key);
+		return \Encryption\IceTeaCrypt::decrypt($str, $key);
 	}
 }
 
