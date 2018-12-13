@@ -43,6 +43,15 @@ class RegisterTest extends TestCase
 	private function validInput(): array
 	{
 		return [
+			[[
+				"first_name" => "Ammar",
+				"last_name" => "Faizi",
+				"email" => "ammarfaizi2@gmail.com",
+				"phone" => "085867152777",
+				"password" => "ini password",
+				"cpassword" => "ini password",
+				"gender" => "male"
+			], true]
 		];
 	}
 
@@ -73,6 +82,8 @@ class RegisterTest extends TestCase
 	public function testSubmit(array $form, bool $isValid, string $mustMatch = null): void
 	{
 		$o = $this->submit($form);
+
+		var_dump($o["out"]);
 
 		$this->assertTrue(isset($o["info"]["http_code"]));
 		$this->assertEquals($o["info"]["http_code"], ($isValid ? 200 : 400));

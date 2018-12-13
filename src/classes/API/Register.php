@@ -56,6 +56,49 @@ class Register implements APIContract
 	/**
 	 * @return void
 	 */
+	private function save(array &$i): void
+	{
+		try {
+			$pdo = DB::pdo();
+			$st = $pdo->prepare(
+				"INSERT INTO `participants` (`name`, `company_name`, `position`, `company_sector`, `email`, `phone`, `experience`, `created_at`) VALUES (:name, :company_name, :position, :company_sector, :email, :phone, :experience, :created_at);"
+			);
+			$st->execute(
+				[
+					":name" => $i["name"],
+					":company_name" => $i["company_name"],
+					":position" => $i["position"],
+					":company_sector" => $i["company_sector"],
+					":email" => $i["email"],
+					":phone" => $i["phone"],
+					":experience" => $i["experience"],
+					":created_at" => date("Y-m-d H:i:s")
+				]
+			);
+
+			print API::json001("success",
+				[
+					"message" => "register_success"
+				]
+			);
+		} catch (PDOException $e) {
+			// Close PDO connection.
+			$st = $pdo = null;
+			
+			error_api("Internal Server Error: {$e->getMessage()}", 500);
+
+			unset($e, $st, $pdo, $i);
+			exit;
+		}
+
+		// Close PDO connection.
+		$st = $pdo = null;
+		unset($st, $pdo, $i);
+	}
+
+	/**
+	 * @return void
+	 */
 	private function submit(): void
 	{
 		if ($_SERVER["REQUEST_METHOD"] !== "POST") {
