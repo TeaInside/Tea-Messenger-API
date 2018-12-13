@@ -173,7 +173,7 @@ class Register implements APIContract
 		}
 
 		if (!in_array($i["gender"], ["male", "female"])) {
-			error_api("{$m} Invalid gender");
+			error_api("{$m} Invalid gender", 400);
 			return;
 		}
 		$i["gender"] = $i["gender"] === "male" ? "m" : "f";
