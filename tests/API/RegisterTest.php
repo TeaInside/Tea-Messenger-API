@@ -61,6 +61,15 @@ class RegisterTest extends TestCase
 	private function invalidInput(): array
 	{
 		return [
+			[[
+				"first_name" => str_repeat("q", 300),
+				"last_name" => "Faizi",
+				"gender" => "male",
+				"email" => "ammarfaizi2@gmail.com",
+				"phone" => "085867152777",
+				"password" => "ini password",
+				"cpassword" => "ini password",
+			], true, "/\`first_name\` is too short\. Please provide a name with/"]
 		];
 	}
 
