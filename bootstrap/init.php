@@ -21,4 +21,6 @@ if (!defined("TEA_MESSENGER_API_INIT")) {
 
 	require BASEPATH."/vendor/autoload.php";
 	require BASEPATH."/src/helpers.php";
+
+	header("Content-Type: application/json");
 }
