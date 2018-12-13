@@ -123,8 +123,10 @@ class Register implements APIContract
 		} catch (PDOException $e) {
 			// Close PDO connection.
 			$st = $pdo = null;
-			
-			error_api("Internal Server Error: {$e->getMessage()}", 500);
+			$e = $e->getMessage();
+			error_api("Internal Server Error: {$e}", 500);
+			log($e);
+			error_log($e);
 
 			unset($e, $st, $pdo, $i);
 			exit;
