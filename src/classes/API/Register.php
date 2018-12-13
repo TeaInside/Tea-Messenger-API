@@ -59,6 +59,12 @@ class Register implements APIContract
 	private function save(array &$i): void
 	{
 		try {
+
+			$createdAt = date("Y-m-d H:i:s");
+			$encryptedUserKey = icencrypt($userKey = rstr(32), $createdAt);
+			$i["password"] = icencrypt($i["password"], $userKey);
+			unset($userKey);
+
 			$pdo = DB::pdo();
 			$st = $pdo->prepare(
 				"INSERT INTO `users` (`first_name`, `last_name`, `username`, `gender`, `password`, `registered_at`, `updated_at`) VALUES (:first_name, :last_name, :username, :gender, :password, :registered_at, NULL);"
@@ -70,7 +76,20 @@ class Register implements APIContract
 					":username" => $i["username"],
 					":gender" => $i["gender"],
 					":password" => $i["password"],
-					":registered_at" => date("Y-m-d H:i:s")
+					":registered_at" => $createdAt
+				]
+			);
+
+			$userId = $pdo->lastInsertId();
+
+			$st = $pdo->prepare(
+				"INSERT INTO `user_keys` (`user_id`, `ukey`, `created_at`) VALUES (:user_id, :ukey, :created_at);"
+			);
+			$st->execute(
+				[
+					":user_id" => $userId,
+					":ukey" => $encryptedUserKey,
+					":created_at" => $createdAt
 				]
 			);
 
@@ -221,7 +240,7 @@ class Register implements APIContract
 			"success",
 			[
 				// Encrypted expired time and random code 6 bytes for the captcha.
-				"token" => cencrypt(json_encode(
+				"token" => icencrypt(json_encode(
 					[
 						"expired" => $expired,
 						"code" => rstr(6, "1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM")

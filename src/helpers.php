@@ -51,7 +51,7 @@ if (!function_exists("icencrypt")) {
 	 * @param string $key
 	 * @return string $key
 	 */
-	function cencrypt(string $str, string $key): string
+	function icencrypt(string $str, string $key): string
 	{
 		return \Encryption\IceTeaCrypt::encrypt($str, $key);
 	}
@@ -63,7 +63,7 @@ if (!function_exists("icdecrypt")) {
 	 * @param string $key
 	 * @return string $key
 	 */
-	function dencrypt(string $str, string $key): string
+	function icdecrypt(string $str, string $key): string
 	{
 		return \Encryption\IceTeaCrypt::decrypt($str, $key);
 	}

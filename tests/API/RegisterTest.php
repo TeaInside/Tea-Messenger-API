@@ -187,7 +187,7 @@ class RegisterTest extends TestCase
 	private function submit(array $form): array
 	{
 		global $testToken;
-		$me = json_decode(dencrypt($testToken, APP_KEY), true);
+		$me = json_decode(icdecrypt($testToken, APP_KEY), true);
 		$form["captcha"] = $me["code"];
 		$opt = [
 			CURLOPT_POST => true,
