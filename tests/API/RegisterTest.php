@@ -62,4 +62,50 @@ class RegisterTest extends TestCase
 	{
 		return array_merge([], $this->validInput(), $this->invalidInput());
 	}
+
+	/**
+	 * @dataProvider dataToBeTested
+	 * @param array  $form
+	 * @param bool   $isValid
+	 * @param string $mustMatch
+	 * @return void
+	 */
+	public function testSubmit(array $form, bool $isValid, string $mustMatch = null): void
+	{
+		$o = $this->submit($form);
+
+		$this->assertTrue(isset($o["info"]["http_code"]));
+		$this->assertEquals($o["info"]["http_code"], ($isValid ? 200 : 400));
+
+		if (!is_null($mustMatch)) {
+			$this->assertTrue((bool)preg_match($mustMatch, $o["out"]));
+		}
+	}
+
+	/**
+	 * @return array
+	 */
+	private function submit(array $form): array
+	{
+		global $testToken;
+		$me = json_decode(dencrypt($testToken, APP_KEY), true);
+		$form["captcha"] = $me["code"];
+		$opt = [
+			CURLOPT_POST => true,
+			CURLOPT_POSTFIELDS => json_encode($form),
+			CURLOPT_HTTPHEADER => [
+				"Authorization: Bearer {$testToken}",
+				"Content-Type: application/json"
+			]
+		];
+		return $this->curl("http://localhost:8080/register.php?action=submit", $opt);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testClose(): void
+	{
+		$this->assertTrue(file_exists($f = BASEPATH."/php_server.pid"));
+	}
 }
