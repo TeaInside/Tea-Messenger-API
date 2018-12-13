@@ -56,6 +56,14 @@ class Register implements APIContract
 	/**
 	 * @return void
 	 */
+	private function submit(): void
+	{
+		
+	}
+
+	/**
+	 * @return void
+	 */
 	private function getToken(): void
 	{
 		$expired = time()+3600;
