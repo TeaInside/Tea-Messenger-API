@@ -21,6 +21,7 @@ final class API
 	 */
 	public static function dispatch(string $api): void
 	{
+		header("Content-Type: application/json");
 		$api = "\\API\\{$api}";
 		$api = new $api();
 		self::exec($api);
