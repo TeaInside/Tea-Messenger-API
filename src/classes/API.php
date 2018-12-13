@@ -5,8 +5,8 @@ use Contracts\APIContract;
 /**
  * Load API and APP config.
  */
-require BASEPATH."/config/api.php";
-require BASEPATH."/config/app.php";
+require_once BASEPATH."/config/api.php";
+require_once BASEPATH."/config/app.php";
 
 /**
  * @author Ammar Faizi <ammarfaizi2@gmail.com> https://www.facebook.com/ammarfaizi2

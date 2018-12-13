@@ -51,4 +51,13 @@ final class DB
 		}
 		return self::$self;
 	}
+
+	/**
+	 * Destructor.
+	 */
+	public function __destruct()
+	{
+		$this->pdo = null;
+		unset($this->pdo);
+	}
 }
