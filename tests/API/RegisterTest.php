@@ -207,7 +207,7 @@ class RegisterTest extends TestCase
 	public function testClose(): void
 	{
 		$this->assertTrue(file_exists($f = BASEPATH."/php_server.pid"));
-		$tables = ["users", "user_keys", "phones", "emails", "addresses", "files"];
+		$tables = ["users", "user_keys", "phones", "emails", "addresses"];
 		$pdo = DB::pdo();
 		$pdo->exec("SET foreign_key_checks = 0;");
 		foreach ($tables as $key => $table) {
