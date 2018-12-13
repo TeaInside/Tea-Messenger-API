@@ -69,7 +69,34 @@ class RegisterTest extends TestCase
 				"phone" => "085867152777",
 				"password" => "ini password",
 				"cpassword" => "ini password",
-			], false, "/\`first_name\` is too long\. Please provide a name with/"]
+			], false, "/\`first_name\` is too long\. Please provide a name with/"],
+			[[
+				"first_name" => "aaa",
+				"last_name" => "Faizi",
+				"gender" => "male",
+				"email" => "ammarfaizi2@gmail.com",
+				"phone" => "085867152777",
+				"password" => "ini password",
+				"cpassword" => "ini password",
+			], false, "/\`first_name\` is too short\. Please provide a name with/"],
+			[[
+				"first_name" => "aaaaa",
+				"last_name" => str_repeat("a", 300),
+				"gender" => "male",
+				"email" => "ammarfaizi2@gmail.com",
+				"phone" => "085867152777",
+				"password" => "ini password",
+				"cpassword" => "ini password",
+			], false, "/\`last_name\` is too long\. Please provide a name with/"],
+			[[
+				"first_name" => "Ammar",
+				"last_name" => "Faizi",
+				"gender" => "blabla",
+				"email" => "ammarfaizi2@gmail.com",
+				"phone" => "085867152777",
+				"password" => "ini password",
+				"cpassword" => "ini password",
+			], false, "/Invalid gender/"]
 		];
 	}
 
