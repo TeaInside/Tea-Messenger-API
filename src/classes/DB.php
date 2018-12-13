@@ -1,7 +1,5 @@
 <?php
 
-defined("PDO_PARAMETERS") or die("PDO_PARAMETERS is not defined!\n");
-
 /**
  * @author Ammar Faizi <ammarfaizi2@gmail.com> https://www.facebook.com/ammarfaizi2
  * @license MIT
@@ -24,6 +22,10 @@ final class DB
 	 */
 	private function __construct()
 	{
+		require_once BASEPATH."/config/database.php";
+
+		defined("PDO_PARAMETERS") or die("PDO_PARAMETERS is not defined!\n");
+
 		$this->pdo = new PDO(...PDO_PARAMETERS);
 		$this->pdo->setAttribute(
 			PDO::ATTR_ERRMODE,

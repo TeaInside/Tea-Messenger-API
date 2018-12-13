@@ -8,3 +8,7 @@
 /vendor/
 /.phpintel/
 /public/adminer.php
+
+# Config
+/config/app.php
+/config/database.php
