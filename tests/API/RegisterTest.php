@@ -36,4 +36,30 @@ class RegisterTest extends TestCase
 		$this->assertEquals($o["status"], "success");
 		$testToken = $o["data"]["token"];
 	}
+
+	/**
+	 * @return array
+	 */
+	private function validInput(): array
+	{
+		return [
+		];
+	}
+
+	/**
+	 * @return array
+	 */
+	private function invalidInput(): array
+	{
+		return [
+		];
+	}
+
+	/**
+	 * @return array
+	 */
+	public function dataToBeTested(): array
+	{
+		return array_merge([], $this->validInput(), $this->invalidInput());
+	}
 }
