@@ -67,7 +67,7 @@ class Captcha implements APIContract
 	 */
 	private function decryptToken(): void
 	{
-		$this->token = json_decode(dencrypt($this->token, APP_KEY), true);
+		$this->token = json_decode(icdecrypt($this->token, APP_KEY), true);
 
 		if ((!isset($this->token["expired"], $this->token["code"])) || 
 			(!preg_match("/^[a-zA-Z0-9]+$/", $this->token["code"]))) {
