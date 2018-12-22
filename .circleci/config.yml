@@ -35,5 +35,4 @@ jobs:
             - ./vendor
           key: v1-dependencies-{{ checksum "composer.json" }}
 
-      - run: sh -c "php server.php > logs/php_server.log 2>&1 &"
-      - run: php phpunit -vvv
+      - run: sh -c "php server.php > logs/php_server.log 2>&1 &" && php phpunit -vvv
