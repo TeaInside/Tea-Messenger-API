@@ -6,16 +6,16 @@ define("PDO_PARAMETERS",
 		/**
 		 * PDO DSN
 		 */
-		"mysql:host=127.0.0.1;port=9999;dbname=tea-messenger",
+		"mysql:host=127.0.0.1;port=3306;dbname=teamessenger",
 		
 		/**
 		 * Username
 		 */
-		"std_user",
+		"teamesenger",
 
 		/**
 		 * Password
 		 */ 
-		"eqJidWm/hunB27BdkygHtWjFpeCgN8.@q"
+		"123qweASDzxc"
 	]
 );

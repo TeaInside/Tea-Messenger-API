@@ -2,35 +2,35 @@ version: 2
 jobs:
   build:
     docker:
-      - image: php:7.3-cli
-        environment:
-          MYSQL_HOST: 127.0.0.1
-          MYSQL_DB: teamessenger
-          MYSQL_USER: root
-          MYSQL_ALLOW_EMPTY_PASSWORD: true
-          MYSQL_PASSWORD:
-      - image: mysql:5.7
-        command: mysqld --initialize-insecure --skip-grant-tables
-        environment:
-          MYSQL_USER: root
-          MYSQL_ALLOW_EMPTY_PASSWORD: true
-
+      - image: circleci/php:7.2.13-apache-node-browsers-legacy
     working_directory: ~/tea-messenger-api
-
     steps:
       - checkout
-
       - restore_cache:
           keys:
           - v1-dependencies-{{ checksum "composer.json" }}
           - v1-dependencies-
 
-      - run: apt install -y mysql-client
-      - run: composer install -n --prefer-dist
+      - run: php .circleci/php/php_syntax_checker.php
+      - run: apt update -y
 
+      # Build Database
+      - run: apt install -y mysql-server
+      - run: service mysql start
+      - run: mysql -u root -e "CREATE DATABASE teamesenger;"
+      - run: mysql -u root -e "GRANT ALL PRIVILEGES ON teamesenger.* TO 'teamesenger'@'localhost' IDENTIFIED BY '123qweASDzxc';"
+      - run: mysql -u root teamesenger < database.sql
+
+      # Build Application
+      - run: cp config/app.php.example config/app.php
+      - run: cp config/database.php.example config/database.php
+      - run: composer install -n --prefer-dist -vvv
+
+      # Save Cache
       - save_cache:
           paths:
             - ./vendor
           key: v1-dependencies-{{ checksum "composer.json" }}
 
+      - run: sh -c "php server.php > logs/php_server.log 2>&1 &"
       - run: phpunit

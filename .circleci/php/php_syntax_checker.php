@@ -1,6 +1,6 @@
 <?php
 
-$dir = __DIR__."/..";
+$dir = __DIR__."/../..";
 
 /**
  * @param string $pDir
