@@ -10,7 +10,7 @@ jobs:
           MYSQL_ALLOW_EMPTY_PASSWORD: true
           MYSQL_PASSWORD:
       - image: mysql:5.7
-        command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_bin --innodb-large-prefix=true --innodb-file-format=Barracuda
+        command: mysqld --initialize-insecure --skip-grant-tables
         environment:
           MYSQL_USER: root
           MYSQL_ALLOW_EMPTY_PASSWORD: true
@@ -25,7 +25,7 @@ jobs:
           - v1-dependencies-{{ checksum "composer.json" }}
           - v1-dependencies-
 
-      - run: sudo apt install -y mysql-client
+      - run: apt install -y mysql-client
       - run: composer install -n --prefer-dist
 
       - save_cache:
