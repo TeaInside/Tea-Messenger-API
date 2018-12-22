@@ -52,7 +52,25 @@ class RegisterTest extends TestCase
 				"phone" => "085867152777",
 				"password" => "ini password",
 				"cpassword" => "ini password",
-			], true]
+			], true],
+			[[
+				"first_name" => "Ammar",
+				"last_name" => "Faizi",
+				"gender" => "male",
+				"email" => "ammarfaizi2@gmail.com",
+				"phone" => "085867152777",
+				"password" => "ini password",
+				"cpassword" => "ini password",
+			], false, "/Your email.+has already been registered as another user/"],
+			[[
+				"first_name" => "Ammar",
+				"last_name" => "Faizi",
+				"gender" => "male",
+				"email" => "ammarfaizi222@gmail.com",
+				"phone" => "085867152777",
+				"password" => "ini password",
+				"cpassword" => "ini password",
+			], false, "/Your phone.+has already been registered as another user/"]
 		];
 	}
 
