@@ -55,6 +55,17 @@ class Register implements APIContract
 	}
 
 	/**
+	 * @param mixed $userId
+	 * @return void
+	 */
+	private function fallback($userId): void
+	{
+		DB::pdo()
+			->prepare("DELETE FROM `users` WHERE `id` = :id LIMIT 1;")
+			->execute([":id" => $userId]);
+	}
+
+	/**
 	 * @return void
 	 */
 	private function save(array &$i): void
@@ -80,7 +91,7 @@ class Register implements APIContract
 				]
 			);
 
-			$userId = $pdo->lastInsertId();
+			$userId = $pdo->lastInsertId();			
 
 			$st = $pdo->prepare(
 				"INSERT INTO `user_keys` (`user_id`, `ukey`, `created_at`) VALUES (:user_id, :ukey, :created_at);"
@@ -121,6 +132,11 @@ class Register implements APIContract
 				]
 			);
 		} catch (PDOException $e) {
+
+			if (isset($userId)) {
+				$this->fallback($userId);
+			}
+
 			// Close PDO connection.
 			$st = $pdo = null;
 			$e = $e->getMessage();
