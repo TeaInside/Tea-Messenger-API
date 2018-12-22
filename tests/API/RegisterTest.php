@@ -174,6 +174,15 @@ class RegisterTest extends TestCase
 	{
 		$o = $this->submit($form);
 
+		if ($o["info"]["http_code"] === 500) {
+			var_dump($o["out"]);
+
+			if (preg_match("/Integrity constraint violation: 1062 Duplicate entry/", $o["out"])) {
+				$this->testClose(true);
+				$o = $this->submit($form);
+			}
+		}
+
 		$this->assertTrue(isset($o["info"]["http_code"]));
 		$this->assertEquals($o["info"]["http_code"], ($isValid ? 200 : 400));
 
@@ -202,13 +211,14 @@ class RegisterTest extends TestCase
 	}
 
 	/**
+	 * @param bool $force
 	 * @return void
 	 */
-	public function testClose(): void
+	public function testClose($force = false): void
 	{
 		$this->assertTrue(file_exists($f = BASEPATH."/php_server.pid"));
 
-		if (!in_array("-vvvvv", $_SERVER["argv"])) {
+		if (!in_array("-vvvvv", $_SERVER["argv"]) || $force) {
 			$tables = ["users", "user_keys", "phones", "emails", "addresses"];
 			$pdo = DB::pdo();
 			$pdo->exec("SET foreign_key_checks = 0;");

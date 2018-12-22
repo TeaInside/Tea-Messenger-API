@@ -21,6 +21,15 @@ if (!defined("TEA_MESSENGER_API_INIT")) {
 
 	require BASEPATH."/vendor/autoload.php";
 	require BASEPATH."/src/helpers.php";
+	require BASEPATH."/config/base_api_url.php";
 
 	header("Content-Type: application/json");
+	header("Access-Control-Allow-Origin: ".BASE_API_URL);
+	header("Access-Control-Allow-Headers: Origin,Authorization,Content-Type");
+	header("Access-Control-Allow-Methods: POST,GET,OPTIONS,HEAD");
+
+	if (isset($_SERVER["REQUEST_METHOD"]) && in_array($_SERVER["REQUEST_METHOD"], ["OPTIONS", "HEAD"])) {
+		http_response_code(200);
+		exit;
+	}
 }
