@@ -6,6 +6,9 @@ jobs:
     working_directory: ~/tea-messenger-api
     steps:
       - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run: docker build .
       - restore_cache:
           keys:
           - v1-dependencies-{{ checksum "composer.json" }}
