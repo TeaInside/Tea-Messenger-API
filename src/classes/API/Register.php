@@ -4,6 +4,7 @@ namespace API;
 
 use DB;
 use API;
+use PDO;
 use PDOException;
 use Contracts\APIContract;
 
@@ -71,18 +72,20 @@ class Register implements APIContract
 	 */
 	private function validateDB(array &$i): void
 	{
+		$r = explode("@", $i["email"], 2);
 		$e = str_replace(
 			["+", ".", "_", "-"],
 			"%",
-			explode("@", $i["email"], 2)[0]
+			$r[0]
 		);
+		$e = "{$e}@{$r[1]}";
 		$pdo = DB::pdo();
 		$st = $pdo->prepare("SELECT `user_id` FROM `emails` WHERE `email` LIKE :email LIMIT 1;");
 		$st->execute([":email" => $e]);
 		if ($st = $st->fetch(PDO::FETCH_NUM)) {
-			error_api("Your email '{$i["email"]}' has already been registered as another user. Please use another email! ~");
+			error_api("Your email '{$i["email"]}' has already been registered as another user. Please use another email! ~", 400);
 			return;
-		}
+		}		
 	}
 
 	/**
