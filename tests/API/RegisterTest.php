@@ -133,7 +133,7 @@ class RegisterTest extends TestCase
 				"phone" => "085867152777",
 				"password" => "abcd",
 				"cpassword" => "abcdz",
-			], false, "/The confirm password is not same with password/"],
+			], false, "/Confirm password is not equal with the password/"],
 			[[
 				"first_name" => "Ammar",
 				"last_name" => "Faizi",
