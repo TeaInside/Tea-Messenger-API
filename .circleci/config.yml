@@ -25,6 +25,8 @@ jobs:
       - run: cp config/app.php.example config/app.php
       - run: cp config/database.php.example config/database.php
       - run: cp config/base_api_url.php.example config/base_api_url.php
+      - run: sudo docker-php-ext-install pdo_mysql
+      - run: sudo docker-php-ext-enable pdo_mysql
       - run: composer install -n --prefer-dist -vvv
 
       # Save Cache
