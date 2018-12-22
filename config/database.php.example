@@ -11,7 +11,7 @@ define("PDO_PARAMETERS",
 		/**
 		 * Username
 		 */
-		"teamesenger",
+		"teamessenger",
 
 		/**
 		 * Password
