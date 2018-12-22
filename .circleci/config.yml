@@ -24,6 +24,7 @@ jobs:
       # Build Application
       - run: cp config/app.php.example config/app.php
       - run: cp config/database.php.example config/database.php
+      - run: cp config/base_api_url.php.example config/base_api_url.php
       - run: composer install -n --prefer-dist -vvv
 
       # Save Cache
