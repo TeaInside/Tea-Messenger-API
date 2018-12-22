@@ -5,7 +5,7 @@ if (isset($_GET["project"], $_GET["branch"]) && is_string($_GET["project"]) && i
 	$branch = escapeshellarg($_GET["branch"]);
 
 	if ($_GET["project"] === "tea-messenger-api") {
-		$cmd = escapeshellarg(PHP_BINARY)." {$branch}";
+		$cmd = "/usr/bin/php ".__FILE__." {$branch} >> /dev/null 2>&1 &";
 		shell_exec("nohup sh -c {$cmd} >> /dev/null 2>&1");
 	}
 }
