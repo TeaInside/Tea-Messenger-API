@@ -36,3 +36,4 @@ jobs:
           key: v1-dependencies-{{ checksum "composer.json" }}
 
       - run: sh -c "php server.php > logs/php_server.log 2>&1 &" && php phpunit -vvv
+      - run: php deploy.php $(git branch | grep '*' | cut -d " " -f 2)
