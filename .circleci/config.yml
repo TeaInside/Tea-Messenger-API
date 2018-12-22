@@ -3,7 +3,7 @@ jobs:
   build:
     docker:
       - image: php:7.3-cli
-       environment:
+        environment:
           MYSQL_HOST: 127.0.0.1
           MYSQL_DB: teamessenger
           MYSQL_USER: root
