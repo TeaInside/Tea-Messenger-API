@@ -4,6 +4,7 @@ namespace API;
 
 use DB;
 use API;
+use PDO;
 use PDOException;
 use Contracts\APIContract;
 
@@ -66,6 +67,29 @@ class Register implements APIContract
 	}
 
 	/**
+	 * @param array &$i
+	 * @return void
+	 */
+	private function validateDB(array &$i): void
+	{
+		$r = explode("@", $i["email"], 2);
+		$e = str_replace(
+			["+", ".", "_", "-"],
+			"%",
+			$r[0]
+		);
+		$e = "{$e}@{$r[1]}";
+		$pdo = DB::pdo();
+		$st = $pdo->prepare("SELECT `user_id` FROM `emails` WHERE `email` LIKE :email LIMIT 1;");
+		$st->execute([":email" => $e]);
+		if ($st = $st->fetch(PDO::FETCH_NUM)) {
+			error_api("Your email '{$i["email"]}' has already been registered as another user. Please use another email! ~", 400);
+			return;
+		}		
+	}
+
+	/**
+	 * @param array &$i
 	 * @return void
 	 */
 	private function save(array &$i): void
@@ -210,6 +234,8 @@ class Register implements APIContract
 			$i[$v] = trim($i[$v]);
 		}
 
+		$i["email"] = strtolower($i["email"]);
+
 		if ($i["captcha"] !== $this->captcha) {
 			error_api("{$m} Invalid captcha response", 400);
 			return;
@@ -269,7 +295,10 @@ class Register implements APIContract
 			return;
 		}
 
+		$this->validateDB($i);
+
 		unset($c, $i);
+
 		return;
 	}
 
