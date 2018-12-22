@@ -140,6 +140,11 @@ class Register implements APIContract
 			// Close PDO connection.
 			$st = $pdo = null;
 			$e = $e->getMessage();
+
+			if (preg_match("/(?:Duplicate entry \')(.*)(?:\' for key \')(.*)(?:\')/U", $e, $m)) {
+				error_api("Your {$m[2]} '{$m[1]}' has already been registered as another user. Please use another {$m[2]}!", 400);
+			}
+
 			error_api("Internal Server Error: {$e}", 500);
 			log($e);
 			error_log($e);
@@ -248,7 +253,7 @@ class Register implements APIContract
 		}
 
 		if ($i["password"] !== $i["cpassword"]) {
-			error_api("{$m} The confirm password is not same with password", 400);
+			error_api("{$m} Confirm password is not equal with the password", 400);
 			return;
 		}
 
