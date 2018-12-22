@@ -85,7 +85,7 @@ class Register implements APIContract
 		if ($st = $st->fetch(PDO::FETCH_NUM)) {
 			error_api("Your email '{$i["email"]}' has already been registered as another user. Please use another email! ~", 400);
 			return;
-		}		
+		}
 	}
 
 	/**
