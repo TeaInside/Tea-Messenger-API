@@ -17,9 +17,9 @@ jobs:
       # Build Database
       - run: sudo apt install -y mysql-server
       - run: sudo service mysql start
-      - run: sudo mysql -u root -e "CREATE DATABASE teamesenger;"
-      - run: sudo mysql -u root -e "GRANT ALL PRIVILEGES ON teamesenger.* TO 'teamessenger'@'localhost' IDENTIFIED BY '123qweASDzxc';"
-      - run: sudo mysql -u root teamesenger < database.sql
+      - run: sudo mysql -u root -e "CREATE DATABASE teamessenger;"
+      - run: sudo mysql -u root -e "GRANT ALL PRIVILEGES ON teamessenger.* TO 'teamessenger'@'localhost' IDENTIFIED BY '123qweASDzxc';"
+      - run: sudo mysql -u root teamessenger < database.sql
 
       # Build Application
       - run: cp config/app.php.example config/app.php
