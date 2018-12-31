@@ -11,7 +11,7 @@ DROP TABLE IF EXISTS `addresses`;
 CREATE TABLE `addresses` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) NOT NULL,
-  `address` text NOT NULL,
+  `address` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `created_at` (`created_at`),
@@ -25,7 +25,7 @@ DROP TABLE IF EXISTS `emails`;
 CREATE TABLE `emails` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) NOT NULL,
-  `email` varchar(255) NOT NULL,
+  `email` varchar(255) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
   `created_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`),
@@ -38,10 +38,10 @@ CREATE TABLE `emails` (
 DROP TABLE IF EXISTS `files`;
 CREATE TABLE `files` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `file_type` varchar(64) NOT NULL,
+  `file_type` varchar(64) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
   `file_size` bigint(20) NOT NULL,
-  `sha1_checksum` varchar(40) NOT NULL,
-  `md5_checksum` varchar(32) NOT NULL,
+  `sha1_checksum` char(40) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
+  `md5_checksum` char(32) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
   `description` text NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime DEFAULT NULL,
@@ -59,7 +59,7 @@ DROP TABLE IF EXISTS `phones`;
 CREATE TABLE `phones` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) NOT NULL,
-  `phone` varchar(64) NOT NULL,
+  `phone` varchar(64) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
   `created_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `phone` (`phone`),
@@ -72,11 +72,11 @@ CREATE TABLE `phones` (
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `first_name` varchar(255) NOT NULL,
-  `last_name` varchar(255) DEFAULT NULL,
-  `username` varchar(64) DEFAULT NULL,
-  `gender` enum('m','f') NOT NULL,
-  `password` text NOT NULL,
+  `first_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `last_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `username` varchar(64) CHARACTER SET latin1 COLLATE latin1_general_ci DEFAULT NULL,
+  `gender` enum('m','f') CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
+  `password` text CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
   `primary_email` bigint(20) DEFAULT NULL,
   `primary_phone` bigint(20) DEFAULT NULL,
   `primary_address` bigint(20) DEFAULT NULL,
@@ -101,7 +101,7 @@ DROP TABLE IF EXISTS `user_keys`;
 CREATE TABLE `user_keys` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) NOT NULL,
-  `ukey` text NOT NULL,
+  `ukey` text CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
   `created_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
@@ -109,4 +109,4 @@ CREATE TABLE `user_keys` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
--- 2018-12-31 11:17:29
+-- 2018-12-31 16:28:02
