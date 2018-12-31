@@ -4,4 +4,4 @@
 
 The API for Tea Messenger app.
 
-https://messenger-api.teainside.org1
+https://messenger-api.teainside.org
