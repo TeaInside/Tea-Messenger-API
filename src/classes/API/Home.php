@@ -71,7 +71,7 @@ class Home implements APIContract
 		try {
 			$pdo = DB::pdo();
 			$st = $pdo->prepare(
-				"SELECT `a`.`id` AS `user_id`,`a`.`first_name`,`a`.`last_name` FROM `users` AS `a` WHERE `id` = :id LIMIT 1"
+				"SELECT  `a`.`id` AS `user_id`,`a`.`first_name`,`a`.`last_name`, `b`.`email`,`c`.`phone_number` FROM `users` AS `a`  INNER JOIN `emails` AS `b` ON `b`.`id` = `a`.`primary_email` INNER JOIN `phones` AS `c` ON `c`.`id` = `a`.`primary_phone_number` WHERE `a`.`id` = :id LIMIT 1"
 			);
 			$st->execute([":id" => $this->tkn[0]]);
 			if ($st = $st->fetch(PDO::FETCH_ASSOC)) {
@@ -81,7 +81,7 @@ class Home implements APIContract
 			$st = $pdo = null;
 			unset($st, $pdo);
 		} catch (PDOException $e) {
-			log($e);
+			$e = $e->getMessage();
 			error_log($e);
 			error_api("Internal Server Error: {$e}", 500);
 			exit;
