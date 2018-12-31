@@ -73,6 +73,7 @@ class Profile implements APIContract
 			$st = $pdo->prepare(
 				"SELECT  
 					`a`.`id` AS `user_id`,`a`.`first_name`,`a`.`last_name`,
+					`a`.`gender`,
 					`a`.`registered_at`,`b`.`email`,`c`.`phone`
 				FROM `users` AS `a` 
 				INNER JOIN `emails` AS `b` ON `b`.`id` = `a`.`primary_email`
@@ -81,6 +82,7 @@ class Profile implements APIContract
 			);
 			$st->execute([":id" => $this->tkn[0]]);
 			if ($st = $st->fetch(PDO::FETCH_ASSOC)) {
+				$st["photo"] = "";
 				$st["registered_at"] = date("d F Y", strtotime($st["registered_at"]));
 				foreach ($st as &$stptr) {
 					$stptr = htmlspecialchars($stptr, ENT_QUOTES, "UTF-8");
