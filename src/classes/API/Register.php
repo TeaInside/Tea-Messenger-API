@@ -169,11 +169,9 @@ class Register implements APIContract
 				error_api("Your {$m[2]} '{$m[1]}' has already been registered as another user. Please use another {$m[2]}!", 400);
 			}
 
-			error_api("Internal Server Error: {$e}", 500);
 			log($e);
 			error_log($e);
-
-			unset($e, $st, $pdo, $i);
+			error_api("Internal Server Error: {$e}", 500);
 			exit;
 		}
 
@@ -231,7 +229,9 @@ class Register implements APIContract
 				return;
 			}
 
-			$i[$v] = trim($i[$v]);
+			if (!in_array($v, ["password", "cpassword"])) {
+				$i[$v] = trim($i[$v]);
+			}
 		}
 
 		$i["email"] = strtolower($i["email"]);
