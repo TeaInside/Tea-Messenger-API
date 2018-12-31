@@ -170,7 +170,7 @@ class Login implements APIContract
 				$i[$v] = trim($i[$v]);
 			}
 		}
-
+		$i["username"] = strtolower($i["username"]);
 		if (filter_var($i["username"], FILTER_VALIDATE_EMAIL)) {
 			$this->loginType = "email";
 		}
