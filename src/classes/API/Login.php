@@ -118,7 +118,7 @@ class Login implements APIContract
 			} else if ($this->loginType === "phone") {
 
 			}
-
+			
 			if ($st = $st->fetch(PDO::FETCH_ASSOC)) {
 				if (icdecrypt($st["password"], icdecrypt($st["ukey"], $st["registered_at"])) === $i["password"]) {
 					$this->tokenSession = icencrypt(
