@@ -16,4 +16,25 @@ static $testToken = null;
  */
 class LoginTest extends TestCase
 {
+	use Curl;
+
+	/**
+	 * @return void
+	 */
+	public function testGetToken(): void
+	{
+		global $testToken;
+		$o = $this->curl("http://localhost:8080/login.php?action=get_token");
+		$o = json_decode($o["out"], true);
+		$this->assertTrue(
+			isset(
+				$o["status"],
+				$o["data"],
+				$o["data"]["token"],
+				$o["data"]["expired"]
+			)
+		);
+		$this->assertEquals($o["status"], "success");
+		$testToken = $o["data"]["token"];
+	}
 }
