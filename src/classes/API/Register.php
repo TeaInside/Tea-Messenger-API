@@ -154,7 +154,9 @@ class Register implements APIContract
 
 			$phoneId = $pdo->lastInsertId();
 
-			$st = $pdo->prepare("UPDATE `users` SET `primary_email`=:email_id,`primary_phone`=:phone_id WHERE `id` = :user_id LIMIT 1;");
+			$st = $pdo->prepare(
+				"UPDATE `users` SET `primary_email`=:email_id,`primary_phone`=:phone_id WHERE `id` = :user_id LIMIT 1;"
+			);
 			$st->execute(
 				[
 					":email_id" => $emailId,
