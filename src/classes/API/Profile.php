@@ -14,7 +14,7 @@ use Contracts\APIContract;
  * @package \API
  * @version 0.0.1
  */
-class Home implements APIContract
+class Profile implements APIContract
 {
 	/**
 	 * @var array
