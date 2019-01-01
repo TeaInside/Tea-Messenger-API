@@ -60,7 +60,6 @@ class LoginTest extends TestCase
 			]
 		];
 		$o = $this->curl("http://localhost:8080/register.php?action=submit", $opt);
-		var_dump($o["out"]);
 		$this->assertEquals($o["info"]["http_code"], 200);
 	}
 

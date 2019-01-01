@@ -56,10 +56,8 @@ class RegisterTest extends TestCase
 	public function testSubmit(array $form, bool $isValid, string $mustMatch = null): void
 	{
 		$o = $this->submit($form);
-		var_dump($o["out"]);
-		if ($o["info"]["http_code"] === 500) {
-			var_dump($o["out"]);
 
+		if ($o["info"]["http_code"] === 500) {
 			if (preg_match("/has already been registered as another user. Please use another email!/", $o["out"])) {
 				$this->testClose(true);
 				$o = $this->submit($form);
