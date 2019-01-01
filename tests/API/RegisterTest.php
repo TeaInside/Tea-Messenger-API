@@ -41,6 +41,40 @@ class RegisterTest extends TestCase
 	/**
 	 * @return array
 	 */
+	public function dataToBeTested(): array
+	{
+		return array_merge([], $this->validInput(), $this->invalidInput());
+	}
+
+	/**
+	 * @dataProvider dataToBeTested
+	 * @param array  $form
+	 * @param bool   $isValid
+	 * @param string $mustMatch
+	 * @return void
+	 */
+	public function testSubmit(array $form, bool $isValid, string $mustMatch = null): void
+	{
+		$o = $this->submit($form);
+
+		if ($o["info"]["http_code"] === 500) {
+			if (preg_match("/has already been registered as another user. Please use another email!/", $o["out"])) {
+				$this->testClose(true);
+				$o = $this->submit($form);
+			}
+		}
+
+		$this->assertTrue(isset($o["info"]["http_code"]));
+		$this->assertEquals($o["info"]["http_code"], ($isValid ? 200 : 400));
+
+		if (!is_null($mustMatch)) {
+			$this->assertTrue((bool)preg_match($mustMatch, $o["out"]));
+		}
+	}
+
+	/**
+	 * @return array
+	 */
 	private function validInput(): array
 	{
 		return [
@@ -171,42 +205,6 @@ class RegisterTest extends TestCase
 				"cpassword" => str_repeat("q", 300),
 			], false, "/\`password\` is too long\. Please provide a password /"]
 		];
-	}
-
-	/**
-	 * @return array
-	 */
-	public function dataToBeTested(): array
-	{
-		return array_merge([], $this->validInput(), $this->invalidInput());
-	}
-
-	/**
-	 * @dataProvider dataToBeTested
-	 * @param array  $form
-	 * @param bool   $isValid
-	 * @param string $mustMatch
-	 * @return void
-	 */
-	public function testSubmit(array $form, bool $isValid, string $mustMatch = null): void
-	{
-		$o = $this->submit($form);
-
-		if ($o["info"]["http_code"] === 500) {
-			var_dump($o["out"]);
-
-			if (preg_match("/Integrity constraint violation: 1062 Duplicate entry/", $o["out"])) {
-				$this->testClose(true);
-				$o = $this->submit($form);
-			}
-		}
-
-		$this->assertTrue(isset($o["info"]["http_code"]));
-		$this->assertEquals($o["info"]["http_code"], ($isValid ? 200 : 400));
-
-		if (!is_null($mustMatch)) {
-			$this->assertTrue((bool)preg_match($mustMatch, $o["out"]));
-		}
 	}
 
 	/**

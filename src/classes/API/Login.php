@@ -76,7 +76,7 @@ class Login implements APIContract
 		// Validate input
 		$i = json_decode(file_get_contents("php://input"), true);
 		if (!is_array($i)) {
-			error_api("Invalid request body");
+			error_api("Invalid request body", 400);
 			return;
 		}
 
