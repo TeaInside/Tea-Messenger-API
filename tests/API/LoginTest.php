@@ -6,7 +6,10 @@ use DB;
 use tests\Curl;
 use PHPUnit\Framework\TestCase;
 
+static $email;
 static $testToken = null;
+
+$email =  time().rand()."-phpunit@phpunit.de";
 
 /**
  * @author Ammar Faizi <ammarfaizi2@gmail.com> https://www.facebook.com/ammarfaizi2
@@ -23,12 +26,13 @@ class LoginTest extends TestCase
 	 */
 	public function testCreateANewAccountBeforeLogin(): void
 	{
+		global $email;
 		$reg = [
 			"first_name" => "Php Unit",
 			"last_name" => " Test Case",
 			"gender" => "male",
-			"email" => "phpunit@phpunit.de",
-			"phone" => "088592910210",
+			"email" => $email,
+			"phone" => "08".time().rand(0,9),
 			"password" => "phpunit123QWEASDZXC",
 			"cpassword" => "phpunit123QWEASDZXC",
 		];
@@ -51,11 +55,12 @@ class LoginTest extends TestCase
 			CURLOPT_POST => true,
 			CURLOPT_POSTFIELDS => json_encode($reg),
 			CURLOPT_HTTPHEADER => [
-				"Authorization: Bearer {$testToken}",
+				"Authorization: Bearer {$o["data"]["token"]}",
 				"Content-Type: application/json"
 			]
 		];
 		$o = $this->curl("http://localhost:8080/register.php?action=submit", $opt);
+		var_dump($o["out"]);
 		$this->assertEquals($o["info"]["http_code"], 200);
 	}
 
@@ -81,6 +86,23 @@ class LoginTest extends TestCase
 
 	public function testLogin(): void
 	{
+		global $email, $testToken;
+		$o = $this->curl("http://localhost:8080/login.php?action=login",
+			[
+				CURLOPT_POST => 1,
+				CURLOPT_POSTFIELDS => json_encode(
+					[
+						"username" => $email,
+						"password" => "phpunit123QWEASDZXC",
+					]
+				),
+				CURLOPT_HTTPHEADER => [
+					"Authorization: Bearer {$testToken}",
+					"Content-Type: application/json"
+				]
+			]
+		);
 
+		$this->assertEquals($o["info"]["http_code"], 200);
 	}
 }
