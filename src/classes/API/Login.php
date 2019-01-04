@@ -65,13 +65,11 @@ class Login implements APIContract
 	 */
 	private function login(): void
 	{
-		$in = file_get_contents("php://input");
-
 		if ($_SERVER["REQUEST_METHOD"] !== "POST") {
 			error_api("Method not allowed", 405);
 		}
 		
-		$this->captcha = API::validateToken();
+		API::validateToken();
 
 		// Validate input
 		$i = json_decode(file_get_contents("php://input"), true);

@@ -115,16 +115,16 @@ class LoginTest extends TestCase
 
 		$o = json_decode($o["out"], true);
 
+		$token_session = $o["data"]["message"]["token_session"];
+
 		$o = $this->curl("http://localhost:8080/profile.php?action=get_user_info",
 			[
 				CURLOPT_HTTPHEADER => [
-					"Authorization: Bearer {$o["data"]["message"]["token_session"]}",
+					"Authorization: Bearer {$token_session}",
 					"Content-Type: application/json"
 				]
 			]
 		);
-
-		$token_session = $o["data"]["message"]["token_session"];
 
 		$o = json_decode($o["out"], true);
 		$this->assertEquals($o["data"]["first_name"], $first_name);

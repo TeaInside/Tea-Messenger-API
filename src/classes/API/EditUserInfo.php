@@ -55,6 +55,26 @@ class EditUserInfo implements APIContract
 	 */
 	private function editUserInfo(): void
 	{
+		if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+			error_api("Method not allowed", 405);
+		}
+
+		// Validate input
+		$i = json_decode(file_get_contents("php://input"), true);
+		if (!is_array($i)) {
+			error_api("Invalid request body", 400);
+			return;
+		}
+
+		$this->validateEditUserInfoInput($i);
+	}
+
+	/**
+	 * @param array &$i
+	 * @return void
+	 */
+	private function validateEditUserInfoInput(array &$i): void
+	{
 		$m = "Bad Request:";
 		$required = [
 			"first_name",
@@ -80,12 +100,40 @@ class EditUserInfo implements APIContract
 		}
 
 		$i["email"] = strtolower($i["email"]);
-	}
 
-	/**
-	 * @return void
-	 */
-	private function validateEditUserInfoInput(): void
-	{		
+		$c = strlen($i["first_name"]);
+
+		if ($c >= 200) {
+			error_api("{$m} `first_name` is too long. Please provide a name with size less than 200 bytes.", 400);
+			return;
+		}
+
+		if ($c <= 4) {
+			error_api("{$m} `first_name` is too short. Please provide a name with size more than 4 bytes.", 400);
+			return;
+		}
+
+		$c = strlen($i["last_name"]);
+
+		if ($c >= 200) {
+			error_api("{$m} `last_name` is too long. Please provide a name with size less than 200 bytes.", 400);
+			return;
+		}
+
+		if (!in_array($i["gender"], ["male", "female"])) {
+			error_api("{$m} Invalid gender", 400);
+			return;
+		}
+		$i["gender"] = $i["gender"] === "male" ? "m" : "f";
+
+		if (!filter_var($i["email"], FILTER_VALIDATE_EMAIL)) {
+			error_api("{$m} \"{$i["email"]}\" is not a valid email address", 400);
+			return;
+		}
+
+		if (!preg_match("/^[0\+]\d{4,13}$/", $i["phone"])) {
+			error_api("{$m} Invalid phone number", 400);
+			return;
+		}
 	}
 }

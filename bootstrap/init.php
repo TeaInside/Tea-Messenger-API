@@ -32,4 +32,6 @@ if (!defined("TEA_MESSENGER_API_INIT")) {
 		http_response_code(200);
 		exit;
 	}
+
+	isset($_SERVER["HTTP_USER_AGENT"]) or $_SERVER["HTTP_USER_AGENT"] = "1";
 }
