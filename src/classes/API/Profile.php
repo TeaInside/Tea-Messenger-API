@@ -47,7 +47,7 @@ class Profile implements APIContract
 				$tkn = null;
 			}
 		}
-
+		isset($_SERVER["HTTP_USER_AGENT"]) or $_SERVER["HTTP_USER_AGENT"] = "1";
 		if ((!isset($tkn[0], $tkn[1]) || (md5($_SERVER["HTTP_USER_AGENT"]) !== $tkn[1]))) {
 			error_api("Unauthorized", 401);
 			return;
