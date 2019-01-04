@@ -38,6 +38,16 @@ trait EditUserInfo
 				],
 				"/\`first_name\` is too long\./"
 			],
+			[
+				[
+					"first_name" => "{$first_name}",
+					"last_name" => "{$last_name} new name".str_repeat("qq", 200),
+					"gender" => "male",
+					"email" => "{$email}",
+					"phone" => "085123345567"
+				],
+				"/\`last_name\` is too long\./"
+			],
 		];
 	}
 
