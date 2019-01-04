@@ -55,14 +55,37 @@ class EditUserInfo implements APIContract
 	 */
 	private function editUserInfo(): void
 	{
-		
+		$m = "Bad Request:";
+		$required = [
+			"first_name",
+			"last_name",
+			"gender",
+			"email",
+			"phone"
+		];
+
+		foreach ($required as $v) {
+			if (!isset($i[$v])) {
+				error_api("{$m} Field required: {$v}", 400);
+				return;
+			}
+			if (!is_string($i[$v])) {
+				error_api("{$m} Field `{$v}` must be a string", 400);
+				return;
+			}
+
+			if (!in_array($v, ["password", "cpassword"])) {
+				$i[$v] = trim($i[$v]);
+			}
+		}
+
+		$i["email"] = strtolower($i["email"]);
 	}
 
 	/**
 	 * @return void
 	 */
 	private function validateEditUserInfoInput(): void
-	{
-		
+	{		
 	}
 }

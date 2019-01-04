@@ -11,7 +11,7 @@ static $testToken = null;
 /**
  * @author Ammar Faizi <ammarfaizi2@gmail.com> https://www.facebook.com/ammarfaizi2
  * @license MIT
- * @package \API
+ * @package \tests\API
  * @version 0.0.1
  */
 class RegisterTest extends TestCase

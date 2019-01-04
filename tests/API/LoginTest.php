@@ -5,18 +5,20 @@ namespace tests\API;
 use DB;
 use tests\Curl;
 use PHPUnit\Framework\TestCase;
+use tests\API\Traits\EditUserInfo;
 
 static $email;
 static $testToken = null;
 static $first_name = "Php Unit";
 static $last_name = " Test Case";
+static $token_session;
 
 $email =  time().rand()."-phpunit@phpunit.de";
 
 /**
  * @author Ammar Faizi <ammarfaizi2@gmail.com> https://www.facebook.com/ammarfaizi2
  * @license MIT
- * @package \API
+ * @package \tests\API
  * @version 0.0.1
  */
 class LoginTest extends TestCase
@@ -92,7 +94,7 @@ class LoginTest extends TestCase
 	 */
 	public function testLogin(): void
 	{
-		global $email, $first_name, $last_name, $testToken;
+		global $email, $first_name, $last_name, $testToken, $token_session;
 		$o = $this->curl("http://localhost:8080/login.php?action=login",
 			[
 				CURLOPT_POST => 1,
@@ -122,9 +124,13 @@ class LoginTest extends TestCase
 			]
 		);
 
+		$token_session = $o["data"]["message"]["token_session"];
+
 		$o = json_decode($o["out"], true);
 		$this->assertEquals($o["data"]["first_name"], $first_name);
 		$this->assertEquals($o["data"]["last_name"], trim($last_name));
 		$this->assertEquals($o["data"]["email"], $email);
 	}
+
+	use EditUserInfo;
 }
