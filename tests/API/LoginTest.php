@@ -83,6 +83,9 @@ class LoginTest extends TestCase
 		$testToken = $o["data"]["token"];
 	}
 
+	/**
+	 * @return void
+	 */
 	public function testLogin(): void
 	{
 		global $email, $testToken;
