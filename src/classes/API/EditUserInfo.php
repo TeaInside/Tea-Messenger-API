@@ -97,8 +97,6 @@ class EditUserInfo implements APIContract
 			}
 		}
 
-		$i["email"] = strtolower($i["email"]);
-
 		$c = strlen($i["first_name"]);
 
 		if ($c >= 200) {
