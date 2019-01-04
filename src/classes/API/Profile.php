@@ -60,7 +60,18 @@ class Profile implements APIContract
 			case "get_user_info":
 				$this->getUserInfo();
 			break;
+			case "edit_user_info":
+				$this->editUserInfo();
+			break;
 		}
+	}
+
+	/**
+	 * @return void
+	 */
+	private function editUserInfo(): void
+	{
+
 	}
 
 	/**
