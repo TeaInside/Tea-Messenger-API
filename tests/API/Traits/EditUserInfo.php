@@ -48,6 +48,16 @@ trait EditUserInfo
 				],
 				"/\`last_name\` is too long\./"
 			],
+			[
+				[
+					"first_name" => "{$first_name}",
+					"last_name" => "{$last_name} new name",
+					"gender" => "maleq",
+					"email" => "{$email}",
+					"phone" => "085123345567"
+				],
+				"/Invalid gender/"
+			],
 		];
 	}
 
@@ -93,9 +103,7 @@ trait EditUserInfo
 					[
 						"first_name" => "{$first_name} new name",
 						"last_name" => "{$last_name} new name",
-						"gender" => "male",
-						"email" => "{$email}",
-						"phone" => "085123345567"
+						"gender" => "male"
 					]
 				)
 			]

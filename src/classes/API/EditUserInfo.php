@@ -80,8 +80,6 @@ class EditUserInfo implements APIContract
 			"first_name",
 			"last_name",
 			"gender",
-			"email",
-			"phone"
 		];
 
 		foreach ($required as $v) {
@@ -125,15 +123,5 @@ class EditUserInfo implements APIContract
 			return;
 		}
 		$i["gender"] = $i["gender"] === "male" ? "m" : "f";
-
-		if (!filter_var($i["email"], FILTER_VALIDATE_EMAIL)) {
-			error_api("{$m} \"{$i["email"]}\" is not a valid email address", 400);
-			return;
-		}
-
-		if (!preg_match("/^[0\+]\d{4,13}$/", $i["phone"])) {
-			error_api("{$m} Invalid phone number", 400);
-			return;
-		}
 	}
 }
