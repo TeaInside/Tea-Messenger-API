@@ -65,13 +65,11 @@ class Login implements APIContract
 	 */
 	private function login(): void
 	{
-		$in = file_get_contents("php://input");
-
 		if ($_SERVER["REQUEST_METHOD"] !== "POST") {
 			error_api("Method not allowed", 405);
 		}
 		
-		$this->captcha = API::validateToken();
+		API::validateToken();
 
 		// Validate input
 		$i = json_decode(file_get_contents("php://input"), true);
@@ -93,10 +91,12 @@ class Login implements APIContract
 				]
 			);
 		} else {
+			http_response_code(401);
+
 			print API::json001("success",
 				[
 					"message" => [
-						"state" => "Invalid username or password!",
+						"state" => "Unauthorized: Invalid username or password!",
 					]
 				]
 			);
