@@ -91,10 +91,12 @@ class Login implements APIContract
 				]
 			);
 		} else {
+			http_response_code(401);
+
 			print API::json001("success",
 				[
 					"message" => [
-						"state" => "Invalid username or password!",
+						"state" => "Unauthorized: Invalid username or password!",
 					]
 				]
 			);
