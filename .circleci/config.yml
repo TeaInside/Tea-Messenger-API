@@ -27,7 +27,7 @@ jobs:
       - run: cp config/base_api_url.php.example config/base_api_url.php
       - run: sudo docker-php-ext-install pdo_mysql
       - run: sudo docker-php-ext-enable pdo_mysql
-      - run: composer install -n --prefer-dist -vvv
+      - run: composer install -n --prefer-dist
 
       # Save Cache
       - save_cache:
